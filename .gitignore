@@ -1,10 +1,14 @@
+# Env (vlient id and client secret)
+.env
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 
-# vscode
+# editor/ide
 .vscode/
+.idea/
 
 # C extensions
 *.so
