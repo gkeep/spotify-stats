@@ -1,31 +1,24 @@
-import sps_config
-import spotipy
+import m_config
+import m_util
+from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
+import json
 import logging
 
+cfg = m_config.ConfigManager()
 
-def prompt_user() -> str:
-    username = input("Username: ")
+auth = SpotifyOAuth(
+    client_id=cfg.client_id,
+    client_secret=cfg.client_secret,
+    redirect_uri=cfg.redirect_uri,
+    scope=cfg.scope
+)
 
-    if not username:
-        prompt_user()
+spotify_handler = Spotify(auth_manager=auth)
 
-    return username
+_user = "gkeep77"
+user_id = spotify_handler.user(_user)['uri']
 
-config_manager = sps_config.ConfigManager()
-
-scope = "user-library-read"
-spotify = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
-
-# user = prompt_user()
-user = "gkeep77"
-
-result = spotify.current_user_top_artists(15, 0, "long_term")
-print()
-
-# results = spotify.search(q='artist:' + "Radiohead", type='artist')
-# items = results['artists']['items']
-# print(items)
-# if len(items) > 0:
-#     artist = items[0]
-#     print(artist['name'], artist["images"][0]['url'])
+util = m_util.UtilManager(spotify_handler)
+top_tracks = util.get_top_tracks(15, "medium_term")
+print(json.dumps(top_tracks, indent=2))
