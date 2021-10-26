@@ -9,11 +9,12 @@ class ConfigManager:
         src_path = Path(os.path.dirname(os.path.realpath(__file__ + "../../")))
         load_dotenv(src_path / ".env")
 
-        self.clinet_id = os.getenv("SPOTIPY_CLIENT_ID")
+        self.client_id = os.getenv("SPOTIPY_CLIENT_ID")
         self.client_secret = os.getenv("SPOTIPY_CLIENT_SECRET")
         self.redirect_uri = os.getenv("SPOTIPY_REDIRECT_URI")
+        self.scope = os.getenv("SPOTIFY_SCOPE")
 
-        var_list = [self.clinet_id, self.client_secret, self.redirect_uri]
+        var_list = [self.client_id, self.client_secret, self.redirect_uri, self.scope]
         for item in var_list:
             if item is None:
                 logging.error(f"{item} is not set")
