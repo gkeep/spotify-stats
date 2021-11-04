@@ -21,3 +21,23 @@ class UtilManager:
             items.append(item)
 
         return items
+    def get_top_artists(self, limit: int, time_range: str, dump: bool = False) -> list:
+        top_artists = self.spotify_handler.current_user_top_artists(
+            limit=limit, time_range=time_range)
+        items = []
+
+        if dump:
+            print(json.dumps(top_artists, indent=2))
+
+        for item in top_artists["items"]:
+            item = {
+                "name": item["name"],
+                "popularity": item["popularity"],
+                "image": item["images"][0]["url"],
+                "link": item["external_urls"]["spotify"]
+            }
+
+            items.append(item)
+
+        return items
+
