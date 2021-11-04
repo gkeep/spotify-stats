@@ -9,6 +9,7 @@ import shutil
 class UtilManager:
     def __init__(self, handler):
         self.spotify_handler = handler
+        self.data_handler = DataManager()
 
     def get_top_tracks(self, limit: int, time_range: str, dump: bool = False) -> list:
         top_tracks = self.spotify_handler.current_user_top_tracks(
@@ -29,8 +30,7 @@ class UtilManager:
 
             items.append(item)
 
-        data_mgr = DataManager(items)
-        data_mgr.cache_images()
+        self.data_handler.cache_images(items)
 
         return items
 
@@ -53,17 +53,17 @@ class UtilManager:
 
             items.append(item)
 
+        self.data_handler.cache_images(items)
+
         return items
 
 
 class DataManager:
-    def __init__(self, metadata):
-        self.data = metadata
+    def __init__(self):
         self.base_folder = (
                 Path(os.path.dirname(os.path.realpath(__file__ + "/..")))
                 / "cache"
         )  # ? change cache dir later?
-        print(self.base_folder)
 
         if not os.path.exists(self.base_folder / "images"):
             if not os.path.exists(self.base_folder):
