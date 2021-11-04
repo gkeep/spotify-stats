@@ -23,7 +23,7 @@ class UtilManager:
                 "artists": item["artists"][0]["name"],
                 "song_name": item["name"],
                 "album_name": item["album"]["name"],
-                "album_id": item["album"]["id"],
+                "id": item["album"]["id"],
                 "image": item["album"]["images"][2]["url"]
             }
 
@@ -46,7 +46,8 @@ class UtilManager:
             item = {
                 "name": item["name"],
                 "popularity": item["popularity"],
-                "image": item["images"][0]["url"],
+                "id": item["id"],
+                "image": item["images"][1]["url"],
                 "link": item["external_urls"]["spotify"]
             }
 
@@ -77,9 +78,14 @@ class DataManager:
         finally:
             logging.debug("Successfully removed temp folder")
 
-    def cache_images(self) -> int:
-        for image in self.data:
-            filename = self.base_folder / "images" / image["album_id"]
+        if not os.path.exists(self.base_folder / "images"):
+            if not os.path.exists(self.base_folder):
+                os.mkdir(self.base_folder)
+            os.mkdir(self.base_folder / "images")
+
+    def cache_images(self, metadata):
+        for image in metadata:
+            filename = self.base_folder / "images" / image["id"]
             link = image["image"]
             try:
                 if not os.path.exists(filename):
@@ -90,5 +96,3 @@ class DataManager:
                 logging.error("Couldn't download {}: {}".format(link, error))
             except requests.exceptions.MissingSchema as error:
                 logging.debug("Broken image link: {}".format(error))
-
-        return 0
