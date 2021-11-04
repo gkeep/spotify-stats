@@ -1,26 +1,39 @@
 import json
+import logging
+import os
+from pathlib import Path
+import requests
+import shutil
 
 
 class UtilManager:
     def __init__(self, handler):
         self.spotify_handler = handler
 
-    def get_top_tracks(self, limit: int, time_range: str) -> list:
+    def get_top_tracks(self, limit: int, time_range: str, dump: bool = False) -> list:
         top_tracks = self.spotify_handler.current_user_top_tracks(
             limit=limit, time_range=time_range)
         items = []
 
+        if dump:
+            print(json.dumps(top_tracks, indent=2))
+
         for item in top_tracks["items"]:
-            _artists = item["artists"][0]["name"]
-            _name = item["name"]
             item = {
-                "artists": _artists,
-                "name": _name
+                "artists": item["artists"][0]["name"],
+                "song_name": item["name"],
+                "album_name": item["album"]["name"],
+                "album_id": item["album"]["id"],
+                "image": item["album"]["images"][2]["url"]
             }
 
             items.append(item)
 
+        data_mgr = DataManager(items)
+        data_mgr.cache_images()
+
         return items
+
     def get_top_artists(self, limit: int, time_range: str, dump: bool = False) -> list:
         top_artists = self.spotify_handler.current_user_top_artists(
             limit=limit, time_range=time_range)
@@ -41,3 +54,41 @@ class UtilManager:
 
         return items
 
+
+class DataManager:
+    def __init__(self, metadata):
+        self.data = metadata
+        self.base_folder = (
+                Path(os.path.dirname(os.path.realpath(__file__ + "/..")))
+                / "cache"
+        )  # ? change cache dir later?
+        print(self.base_folder)
+
+        if not os.path.exists(self.base_folder / "images"):
+            if not os.path.exists(self.base_folder):
+                os.mkdir(self.base_folder)
+            os.mkdir(self.base_folder / "images")
+
+    def cleanup(self):
+        try:
+            shutil.rmtree(self.base_folder)
+        except FileNotFoundError:
+            logging.error("Couldn't remove temp folder")
+        finally:
+            logging.debug("Successfully removed temp folder")
+
+    def cache_images(self) -> int:
+        for image in self.data:
+            filename = self.base_folder / "images" / image["album_id"]
+            link = image["image"]
+            try:
+                if not os.path.exists(filename):
+                    _req = requests.get(link, timeout=2)
+                    with open(filename, "wb") as file:
+                        file.write(_req.content)
+            except requests.exceptions.ConnectionError as error:
+                logging.error("Couldn't download {}: {}".format(link, error))
+            except requests.exceptions.MissingSchema as error:
+                logging.debug("Broken image link: {}".format(error))
+
+        return 0
