@@ -11,6 +11,13 @@ class UtilManager:
         self.spotify_handler = handler
         self.data_handler = DataManager()
 
+    def clean_cache(self):
+        logging.info("Cleaning cache...")
+        self.data_handler.cleanup()
+
+    def get_base_folder(self) -> Path:
+        return self.data_handler.base_folder
+
     def get_top_tracks(self, limit: int, time_range: str, dump: bool = False) -> list:
         top_tracks = self.spotify_handler.current_user_top_tracks(
             limit=limit, time_range=time_range)
@@ -25,7 +32,7 @@ class UtilManager:
                 "song_name": item["name"],
                 "album_name": item["album"]["name"],
                 "id": item["album"]["id"],
-                "image": item["album"]["images"][2]["url"]
+                "image": item["album"]["images"][1]["url"]
             }
 
             items.append(item)
