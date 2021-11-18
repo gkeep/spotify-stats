@@ -31,8 +31,8 @@ class UtilManager:
                 "artists": item["artists"][0]["name"],
                 "song_name": item["name"],
                 "album_name": item["album"]["name"],
-                "id": item["album"]["id"],
-                "image": item["album"]["images"][1]["url"]
+                "album_id": item["album"]["id"],
+                "image_link": item["album"]["images"][1]["url"]
             }
 
             items.append(item)
@@ -92,8 +92,8 @@ class DataManager:
 
     def cache_images(self, metadata):
         for image in metadata:
-            filename = self.base_folder / "images" / image["id"]
-            link = image["image"]
+            filename = self.base_folder / "images" / image["album_id"]
+            link = image["image_link"]
             try:
                 if not os.path.exists(filename):
                     _req = requests.get(link, timeout=2)
