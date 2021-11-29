@@ -2,16 +2,16 @@ import m_config
 from m_util import UtilManager
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
-import json
 import logging
 import sys
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtWidgets
 
 import gui_helper
 
 
 def start_window(metadata):
+    logging.debug("starting gui")
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = gui_helper.UI_Main(MainWindow, util)
@@ -32,8 +32,8 @@ if __name__ == '__main__':
         redirect_uri=cfg.redirect_uri,
         scope=cfg.scope
     )
-
     spotify_handler = Spotify(auth_manager=auth)
+    logging.debug("initialized spotify handler")
 
     _user = "gkeep77"
     user_id = spotify_handler.user(_user)['uri']
