@@ -14,9 +14,8 @@ class ConfigManager:
         self.redirect_uri = os.getenv("SPOTIPY_REDIRECT_URI")
         self.scope = os.getenv("SPOTIFY_SCOPE")
 
-        var_list = [self.client_id, self.client_secret, self.redirect_uri, self.scope]
+        var_list = ["client_id", "client_secret", "redirect_uri", "scope"]
         for item in var_list:
-            if item is None:
-                logging.error(f"{item} is not set")
-            else:
-                logging.debug(f"{item} loaded")
+            value = getattr(self, item)
+            if not value:
+                logging.error(f"env:{item} is not set")

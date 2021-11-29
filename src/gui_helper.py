@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPixmap, QColor, QPainter, QBrush
 from PyQt5.QtCore import Qt
+import logging
 
 import ui_main
 
@@ -43,8 +44,8 @@ class UI_Main(ui_main.Ui_MainWindow):
 
         radius = 30
         rounded = QPixmap(pixmap.size())
-        # rounded.fill(QColor("transparent"))
-        rounded.fill(QColor("#d6d2d0"))  # change to background color
+        rounded.fill(QColor("transparent"))
+        # rounded.fill(QColor("#d6d2d0"))  # change to background color
 
         painter = QPainter(rounded)
         painter.setRenderHint(QPainter.Antialiasing)

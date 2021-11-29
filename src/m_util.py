@@ -12,13 +12,15 @@ class UtilManager:
         self.data_handler = DataManager()
 
     def clean_cache(self):
-        logging.info("Cleaning cache...")
+        logging.info("cleaning cache...")
         self.data_handler.cleanup()
 
     def get_base_folder(self) -> Path:
         return self.data_handler.base_folder
 
     def get_top_tracks(self, limit: int, time_range: str, dump: bool = False) -> list:
+        logging.debug(f"getting top tracks in {time_range}")
+
         top_tracks = self.spotify_handler.current_user_top_tracks(
             limit=limit, time_range=time_range)
         items = []
@@ -38,7 +40,6 @@ class UtilManager:
             items.append(item)
 
         self.data_handler.cache_images(items)
-
         return items
 
     def get_top_artists(self, limit: int, time_range: str, dump: bool = False) -> list:
@@ -61,7 +62,6 @@ class UtilManager:
             items.append(item)
 
         self.data_handler.cache_images(items)
-
         return items
 
 
@@ -91,6 +91,7 @@ class DataManager:
             os.mkdir(self.base_folder / "images")
 
     def cache_images(self, metadata):
+        logging.debug("caching images...")
         for image in metadata:
             filename = self.base_folder / "images" / image["album_id"]
             link = image["image_link"]
@@ -99,6 +100,7 @@ class DataManager:
                     _req = requests.get(link, timeout=2)
                     with open(filename, "wb") as file:
                         file.write(_req.content)
+                        logging.info(f"saved album art with id=[{image['album_id']}]")
             except requests.exceptions.ConnectionError as error:
                 logging.error("Couldn't download {}: {}".format(link, error))
             except requests.exceptions.MissingSchema as error:

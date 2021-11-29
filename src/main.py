@@ -9,6 +9,10 @@ from PyQt5 import QtWidgets
 
 import gui_helper
 
+logging.basicConfig(filename='spotify-stats.log', filemode='w', encoding='utf-8', level=logging.DEBUG)
+logging.getLogger('urllib3').setLevel(logging.WARNING)
+logging.getLogger('spotipy').setLevel(logging.WARNING)
+
 
 def start_window(metadata):
     logging.debug("starting gui")
@@ -24,6 +28,8 @@ def start_window(metadata):
 
 
 if __name__ == '__main__':
+    logging.debug("starting the application")
+
     cfg = m_config.ConfigManager()
 
     auth = SpotifyOAuth(
@@ -33,7 +39,6 @@ if __name__ == '__main__':
         scope=cfg.scope
     )
     spotify_handler = Spotify(auth_manager=auth)
-    logging.debug("initialized spotify handler")
 
     _user = "gkeep77"
     user_id = spotify_handler.user(_user)['uri']
