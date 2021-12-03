@@ -103,7 +103,9 @@ class DataManager:
                     _req = requests.get(link, timeout=2)
                     with open(filename, "wb") as file:
                         file.write(_req.content)
-                        logging.info(f"saved album art with id=[{image['album_id']}]")
+                        logging.debug(f"saved album art with id=[{image['album_id']}]")
+                else:
+                    logging.debug(f"album art [{image['album_id']}] is already cached")
             except requests.exceptions.ConnectionError as error:
                 logging.error("Couldn't download {}: {}".format(link, error))
             except requests.exceptions.MissingSchema as error:
