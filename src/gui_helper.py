@@ -30,6 +30,18 @@ class UI_Main(ui_main.Ui_MainWindow):
             self.set_album_name(getattr(self, f"albumName{postfix}"), album_name)
             self.set_image(getattr(self, f"albumArt{postfix}"), img_path)
 
+    def change_term(self):
+        current_index = self.termComboBox.currentIndex()
+        if current_index == 0:
+            new_term = "short_term"
+        elif current_index == 1:
+            new_term = "medium_term"
+        elif current_index == 2:
+            new_term = "long_term"
+
+        new_top = self.util.get_top_tracks(10, new_term)
+        self.display(new_top)
+
     @staticmethod
     def set_song_name(item: QtWidgets.QLabel, song_name: str):
         item.setText(song_name)
