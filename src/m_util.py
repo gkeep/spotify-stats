@@ -15,6 +15,9 @@ class UtilManager:
         logging.info("cleaning cache...")
         self.data_handler.cleanup()
 
+    def get_current_user(self) -> str:
+        return self.spotify_handler.current_user()['display_name']
+
     def get_base_folder(self) -> Path:
         return self.data_handler.base_folder
 

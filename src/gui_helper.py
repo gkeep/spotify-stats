@@ -11,11 +11,15 @@ class UI_Main(ui_main.Ui_MainWindow):
         super().setupUi(m_MainWindow)
         self.util = Util
 
+        self.termComboBox.currentIndexChanged.connect(self.change_term)
+
         self.items_list = [""]
         for i in range(2, 11):
             self.items_list.append(f"_{i}")
 
-    def display(self, metadata):
+    def display(self, metadata: list):
+        self.welcomeTextLabel.setText(f"Welcome {self.util.get_current_user()}!")
+
         for idx, postfix in enumerate(self.items_list):
             img_path = str(self.util.get_base_folder() / "images" / metadata[idx]["album_id"])
             song_name = metadata[idx]["song_name"]
