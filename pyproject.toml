@@ -15,6 +15,8 @@ spotipy = "^2.19.0"
 PyQt5 = "^5.15.6"
 python-dotenv = "^0.19.2"
 pyuic5-tool = "^0.0.1"
+appdirs = "^1.4.4"
+PyQt5-sip = "^12.9.0"
 
 [tool.poetry.dev-dependencies]
 

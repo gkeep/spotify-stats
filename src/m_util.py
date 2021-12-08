@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 import requests
 import shutil
-
+import appdirs
 
 class UtilManager:
     def __init__(self, handler):
@@ -70,10 +70,7 @@ class UtilManager:
 
 class DataManager:
     def __init__(self):
-        self.base_folder = (
-                Path(os.path.dirname(os.path.realpath(__file__ + "/..")))
-                / "cache"
-        )  # ? change cache dir later?
+        self.base_folder = (DirManager().cache_dir())
 
         if not os.path.exists(self.base_folder / "images"):
             if not os.path.exists(self.base_folder):
@@ -110,3 +107,27 @@ class DataManager:
                 logging.error("Couldn't download {}: {}".format(link, error))
             except requests.exceptions.MissingSchema as error:
                 logging.debug("Broken image link: {}".format(error))
+
+class DirManager:
+    def __init__(self):
+        author = "gkeep"
+        app_name = "spotify-stats"
+
+        self.config_directory = appdirs.user_config_dir(app_name, author)
+        self.cache_directory = appdirs.user_cache_dir(app_name, author)
+        self.log_directory = appdirs.user_log_dir(app_name, author)
+
+    def config_dir(self) -> Path:
+        if not os.path.exists(self.config_directory):
+            os.mkdir(self.config_directory)
+        return Path(self.config_directory)
+
+    def cache_dir(self) -> Path:
+        if not os.path.exists(self.cache_directory):
+            os.mkdir(self.cache_directory)
+        return Path(self.cache_directory)
+
+    def log_dir(self) -> Path:
+        if not os.path.exists(self.log_directory):
+            os.mkdir(self.log_directory)
+        return Path(self.log_directory)

@@ -1,5 +1,5 @@
 import m_config
-from m_util import UtilManager
+from m_util import UtilManager, DirManager
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
 import logging
@@ -9,7 +9,7 @@ from PyQt5 import QtWidgets
 
 import gui_helper
 
-logging.basicConfig(filename='spotify-stats.log', filemode='w', level=logging.DEBUG)
+logging.basicConfig(filename=DirManager().log_dir() / 'spotify-stats.log', filemode='w', level=logging.DEBUG)
 logging.getLogger('urllib3').setLevel(logging.WARNING)
 logging.getLogger('spotipy').setLevel(logging.WARNING)
 
