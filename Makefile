@@ -1,7 +1,22 @@
-clean-build:
+.PHONY: clean build install-cfg run
+
+build:
+	make clean
+
 	pyinstaller src/main.py \
-		--paths "/home/gkeep/.cache/pypoetry/virtualenvs/spotify-stats-kcGKxyUI-py3.10/lib/python3.10/site-packages" \
+		--paths "$$(poetry env info --path)/lib/python$$(pyenv local | cut -c -3)/site-packages" \
+		--hidden-import PyQt5.sip \
 		--name "spotify-stats" \
 		--noconfirm \
 		--onefile \
 		--clean
+
+run:
+	dist/spotify-stats
+
+clean:
+	rm -f dist/*
+
+install-cfg:
+	mkdir -p "$$XDG_CONFIG_HOME/spotify-stats"
+	cp .env "$$XDG_CONFIG_HOME/spotify-stats/env"
