@@ -4,6 +4,10 @@ version = "0.1.0"
 description = ""
 authors = ["Gennady Koshkin <gkeep77@protonmail.com>"]
 
+packages = [
+    {include = "src"}
+]
+
 [tool.poetry.dependencies]
 python = "^3.6"
 requests = "^2.26.0"
