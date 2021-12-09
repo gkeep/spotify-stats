@@ -2,20 +2,13 @@
 
 build:
 	make clean
-
-	pyinstaller src/main.py \
-		--paths "$$(poetry env info --path)/lib/python$$(pyenv local | cut -c -3)/site-packages" \
-		--hidden-import PyQt5.sip \
-		--name "spotify-stats" \
-		--noconfirm \
-		--onefile \
-		--clean
+	python setup.py build
 
 run:
-	dist/spotify-stats
+	build/exe.linux-x86_64-$$(pyenv local | cut -c -3)/spotify-stats
 
 clean:
-	rm -f dist/*
+	rm -f build/exe.linux-x86_64-$$(pyenv local | cut -c -3)/spotify-stats
 
 install-cfg:
 	mkdir -p "$$XDG_CONFIG_HOME/spotify-stats"
