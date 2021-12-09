@@ -1,0 +1,15 @@
+appdirs==1.4.4
+certifi==2021.10.8
+charset-normalizer==2.0.9
+cx-Freeze==6.9
+idna==3.3
+importlib-metadata==4.8.2
+PyQt5==5.15.6
+PyQt5-Qt5==5.15.2
+PyQt5-sip==12.9.0
+python-dotenv==0.19.2
+requests==2.26.0
+six==1.16.0
+spotipy==2.19.0
+urllib3==1.26.7
+zipp==3.6.0

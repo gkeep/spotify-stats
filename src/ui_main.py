@@ -489,7 +489,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Spotify-stats"))
         self.welcomeTextLabel.setText(_translate("MainWindow", "Welcome {user}!"))
         self.termComboBox.setItemText(0, _translate("MainWindow", "Short Term"))
         self.termComboBox.setItemText(1, _translate("MainWindow", "Medium Term"))
