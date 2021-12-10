@@ -8,7 +8,7 @@ from m_util import DirManager
 class ConfigManager:
     def __init__(self):
         cfg_dir_path = DirManager().config_dir()
-        load_dotenv(cfg_dir_path / "env")
+        load_dotenv(cfg_dir_path / "config")
 
         self.client_id = os.getenv("SPOTIPY_CLIENT_ID")
         self.client_secret = os.getenv("SPOTIPY_CLIENT_SECRET")
