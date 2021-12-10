@@ -7,6 +7,7 @@ build:
 
 run:
 	build/exe.linux-x86_64-$$(pyenv local | cut -c -3)/spotify-stats
+	bat $$HOME/.cache/spotify-stats/log/spotify-stats.log
 
 clean:
 	rm -f build/exe.linux-x86_64-$$(pyenv local | cut -c -3)/spotify-stats

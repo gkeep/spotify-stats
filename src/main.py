@@ -42,7 +42,6 @@ if __name__ == '__main__':
     util = UtilManager(spotify_handler)
 
     # util.clean_cache()
-
     # top = util.get_top_artists(10, "medium_term", dump=False)
 
     top = util.get_top_tracks(10, "medium_term", dump=False)
