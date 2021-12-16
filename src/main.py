@@ -30,7 +30,7 @@ def start_window(metadata: list):
 if __name__ == '__main__':
     logging.debug("starting the application")
 
-    if sys.argv[1]:
+    if len(sys.argv) > 1:
         if os.path.isfile(sys.argv[1]):
             custom_cfg = sys.argv[1]
         else:
