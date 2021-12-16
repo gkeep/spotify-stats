@@ -6,9 +6,15 @@ from m_util import DirManager
 
 
 class ConfigManager:
-    def __init__(self):
-        cfg_dir_path = DirManager().config_dir()
-        load_dotenv(cfg_dir_path / "config")
+    def __init__(self, custom_config: None):
+        if custom_config:
+            config = custom_config
+        else:
+            cfg_dir_path = DirManager().config_dir()
+            config = cfg_dir_path / "config"
+
+        load_dotenv(config)
+        logging.debug(f"loading cfg from [{os.path.abspath(config)}]")
 
         self.client_id = os.getenv("SPOTIPY_CLIENT_ID")
         self.client_secret = os.getenv("SPOTIPY_CLIENT_SECRET")

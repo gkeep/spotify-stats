@@ -4,6 +4,7 @@ from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
 import logging
 import sys
+import os
 
 from PyQt5 import QtWidgets
 
@@ -29,7 +30,16 @@ def start_window(metadata: list):
 if __name__ == '__main__':
     logging.debug("starting the application")
 
-    cfg = m_config.ConfigManager()
+    if sys.argv[1]:
+        if os.path.isfile(sys.argv[1]):
+            custom_cfg = sys.argv[1]
+        else:
+            logging.info("passed wrong config")
+            sys.exit(1)
+    else:
+        custom_cfg = None
+
+    cfg = m_config.ConfigManager(custom_cfg)
 
     auth = SpotifyOAuth(
         client_id=cfg.client_id,

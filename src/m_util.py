@@ -6,6 +6,7 @@ import requests
 import shutil
 import appdirs
 
+
 class UtilManager:
     def __init__(self, handler):
         self.spotify_handler = handler
@@ -107,6 +108,7 @@ class DataManager:
                 logging.error("Couldn't download {}: {}".format(link, error))
             except requests.exceptions.MissingSchema as error:
                 logging.debug("Broken image link: {}".format(error))
+
 
 class DirManager:
     def __init__(self):
