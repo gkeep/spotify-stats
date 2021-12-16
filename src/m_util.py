@@ -119,17 +119,15 @@ class DirManager:
         self.cache_directory = appdirs.user_cache_dir(app_name, author)
         self.log_directory = appdirs.user_log_dir(app_name, author)
 
+        os.makedirs(self.config_directory, exist_ok=True)
+        os.makedirs(self.cache_directory, exist_ok=True)
+        os.makedirs(self.log_directory, exist_ok=True)
+
     def config_dir(self) -> Path:
-        if not os.path.exists(self.config_directory):
-            os.mkdir(self.config_directory)
         return Path(self.config_directory)
 
     def cache_dir(self) -> Path:
-        if not os.path.exists(self.cache_directory):
-            os.mkdir(self.cache_directory)
         return Path(self.cache_directory)
 
     def log_dir(self) -> Path:
-        if not os.path.exists(self.log_directory):
-            os.mkdir(self.log_directory)
         return Path(self.log_directory)
