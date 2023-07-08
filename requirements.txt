@@ -8,7 +8,7 @@ PyQt5==5.15.6
 PyQt5-Qt5==5.15.2
 PyQt5-sip==12.9.0
 python-dotenv==0.19.2
-requests==2.26.0
+requests==2.31.0
 six==1.16.0
 spotipy==2.22.1
 urllib3==1.26.7
